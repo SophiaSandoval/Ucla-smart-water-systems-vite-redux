@@ -26,15 +26,16 @@ import {
   CalciteList,
 } from "@esri/calcite-components-react";
 
+import { useSelector } from "react-redux";
+
 const MapComponent = () => {
+  const nameOfSymbol = useSelector((state) => state.symbol.nameOfSymbol);
+
   return (
     <>
       <CalciteShell>
         <CalciteNavigation slot="header">
-          <CalciteNavigationLogo
-            slot="logo"
-            heading="Impact of RO Smart Water Systems on the Enviroment"
-          />
+          <CalciteNavigationLogo slot="logo" heading={nameOfSymbol} />
           <CalciteNavigationUser
             slot="user"
             fullName="sample user"

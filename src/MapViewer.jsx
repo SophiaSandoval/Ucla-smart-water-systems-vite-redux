@@ -3,6 +3,8 @@ import Map from "@arcgis/core/Map";
 import esriConfig from "@arcgis/core/config";
 import FeatureLayer from "@arcgis/core/layers/FeatureLayer.js";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateName } from "./features/SymbolSlice";
 
 esriConfig.apiKey =
   "AAPKc8c2724210bb416bbfd08a4d8f8387f2LH0wjbm-EntRAxTpaCxx4_VBop5PXsy9pFFQ3gJZQZD2qt74lmd-Ib8tpGHHXzFk";
@@ -10,9 +12,10 @@ esriConfig.apiKey =
 const MapViewer = () => {
   const mapView = useRef(null);
   const [county, setCounty] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!!!mapView.current) return;
+    if (!mapView.current) return;
     const myMap = new Map({
       basemap: "topo",
     });
@@ -52,11 +55,12 @@ const MapViewer = () => {
         console.log(e.mapPoint.latitude);
         console.log(e.mapPoint.longitude);
         setCounty(symbolAttributes.Approximate_Location);
+        dispatch(updateName(symbolAttributes.Approximate_Location));
       }
     });
     myMap.add(layer);
     return () => myMap.destroy();
-  }, [mapView]);
+  }, [dispatch, mapView]);
 
   return (
     <div>
